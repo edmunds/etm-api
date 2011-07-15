@@ -1,0 +1,13 @@
+<urlTokens xmlns="http://www.edmunds.com/etm/1.0">
+
+    <token name="make" type="fixed">
+        <value>ford</value>
+        <value>honda</value>
+        <value>toyota</value>
+    </token>
+
+    <token name="year" type="regex">
+        <value>(19|20)\d{2}</value>
+    </token>
+    
+</urlTokens>

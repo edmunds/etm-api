@@ -1,0 +1,15 @@
+<applicationConfig xmlns="http://www.edmunds.com/etm/1.0">
+    <application>
+        <groupId>com.edmunds.crr</groupId>
+        <artifactId>drr</artifactId>
+        <version>1.1</version>
+    </application>
+    <urlRules>
+        <urlRule>/make/*/year</urlRule>
+        <urlRule>/**/zipcode</urlRule>
+    </urlRules>
+    <httpMonitor>
+        <url>/crr/status.html</url>
+        <content>OK</content>
+    </httpMonitor>
+</applicationConfig>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding package="com.edmunds.etm.common.thrift">
+    <namespace uri="http://www.edmunds.com/etm/1.0" default="elements"/>
+
+    <!-- Client application configuration -->
+    <mapping name="application" class="com.edmunds.etm.common.thrift.MavenModuleDto"
+             ns="http://www.edmunds.com/etm/1.0">
+        <value style="element" name="groupId" field="groupId" usage="required"/>
+        <value style="element" name="artifactId" field="artifactId" usage="required"/>
+        <value style="element" name="version" field="version" usage="required"/>
+    </mapping>
+
+    <mapping name="httpMonitor" class="com.edmunds.etm.common.thrift.HttpMonitorDto"
+             ns="http://www.edmunds.com/etm/1.0">
+        <value style="element" name="url" field="url" usage="required"/>
+        <value style="element" name="content" field="content" usage="required"/>
+    </mapping>
+
+    <mapping name="applicationConfig" class="com.edmunds.etm.common.thrift.ClientConfigDto"
+             ns="http://www.edmunds.com/etm/1.0">
+        <structure field="mavenModule" map-as="com.edmunds.etm.common.thrift.MavenModuleDto"/>
+        <structure name="urlRules">
+            <collection create-type="java.util.ArrayList" field="urlRules" item-type="java.lang.String">
+                <structure name="urlRule">
+                    <value style="text"/>
+                </structure>
+            </collection>
+        </structure>
+        <structure field="httpMonitor" map-as="com.edmunds.etm.common.thrift.HttpMonitorDto" usage="optional"/>
+    </mapping>
+
+    <!-- URL Tokens -->
+    <mapping name="token" class="com.edmunds.etm.common.thrift.UrlTokenDto">
+        <value style="attribute" name="name" field="name" usage="required"/>
+        <value style="attribute" name="type" field="type" usage="required"
+               deserializer="org.apache.commons.lang.StringUtils.upperCase"
+               serializer="org.apache.commons.lang.StringUtils.lowerCase"/>
+        <collection create-type="java.util.ArrayList" field="values" item-type="java.lang.String">
+            <structure name="value">
+                <value style="text"/>
+            </structure>
+        </collection>
+    </mapping>
+
+    <mapping name="urlTokens" class="com.edmunds.etm.common.thrift.UrlTokenCollectionDto">
+        <collection create-type="java.util.ArrayList" field="tokens"
+                    item-type="com.edmunds.etm.common.thrift.UrlTokenDto"/>
+    </mapping>
+</binding>

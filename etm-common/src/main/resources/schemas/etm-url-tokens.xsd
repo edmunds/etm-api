@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:etm="http://www.edmunds.com/etm/1.0"
+           targetNamespace="http://www.edmunds.com/etm/1.0"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+    <xs:element name="urlTokens" type="etm:urlTokensType"/>
+
+
+    <xs:complexType name="urlTokensType">
+        <xs:sequence>
+            <xs:element name="token" type="etm:tokenType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="tokenType">
+        <xs:sequence>
+            <xs:element name="value" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="type" default="fixed">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="fixed"/>
+                    <xs:enumeration value="regex"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+</xs:schema>

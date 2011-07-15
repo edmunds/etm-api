@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:etm="http://www.edmunds.com/etm/1.0"
+           targetNamespace="http://www.edmunds.com/etm/1.0"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+    <xs:element name="applicationConfig" type="etm:applicationConfigType"/>
+
+    <xs:complexType name="applicationConfigType">
+        <xs:sequence>
+            <xs:element name="application" type="etm:applicationType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="urlRules" type="etm:urlRulesType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="httpMonitor" type="etm:httpMonitorType" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="applicationType">
+        <xs:sequence>
+            <xs:element name="groupId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="artifactId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="version" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="urlRulesType">
+        <xs:sequence>
+            <xs:element name="urlRule" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="httpMonitorType">
+        <xs:sequence>
+            <xs:element name="url" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="content" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
