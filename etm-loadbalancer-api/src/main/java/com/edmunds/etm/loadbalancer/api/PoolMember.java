@@ -60,9 +60,14 @@ public class PoolMember implements Serializable {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("PoolMember");
-        sb.append("{hostAddress=").append(hostAddress);
-        sb.append('}');
+        String hostName = hostAddress.getHostName();
+        if (hostName != null) {
+            sb.append(hostName);
+        } else {
+            sb.append(hostAddress.getHost());
+        }
+        sb.append(':');
+        sb.append(hostAddress.getPort());
         return sb.toString();
     }
 }

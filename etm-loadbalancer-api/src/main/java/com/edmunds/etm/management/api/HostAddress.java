@@ -16,12 +16,13 @@
 package com.edmunds.etm.management.api;
 
 import com.edmunds.etm.common.thrift.HostAddressDto;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
+
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Properties;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
 
 /**
  * Container for a host and address. <p/> The host may be a host name or a dotted quad (a.b.c.d) ip address.
@@ -80,12 +81,12 @@ public class HostAddress implements Comparable<HostAddress>, Serializable {
      * @return host ip address
      */
     public String getIpAddress() {
-        if(ipAddress == null) {
+        if (ipAddress == null) {
             try {
                 InetAddress addr = InetAddress.getByName(host);
                 ipAddress = addr.getHostAddress();
-            } catch(UnknownHostException e) {
-                return "Unknown";
+            } catch (UnknownHostException e) {
+                ipAddress = null;
             }
         }
 
@@ -98,12 +99,12 @@ public class HostAddress implements Comparable<HostAddress>, Serializable {
      * @return host name
      */
     public String getHostName() {
-        if(hostName == null) {
+        if (hostName == null) {
             try {
                 InetAddress addr = InetAddress.getByName(host);
                 hostName = addr.getHostName();
-            } catch(UnknownHostException e) {
-                return "Unknown";
+            } catch (UnknownHostException e) {
+                hostName = null;
             }
         }
         return hostName;
@@ -111,10 +112,10 @@ public class HostAddress implements Comparable<HostAddress>, Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if(this == o) {
+        if (this == o) {
             return true;
         }
-        if(o == null || getClass() != o.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
@@ -137,12 +138,12 @@ public class HostAddress implements Comparable<HostAddress>, Serializable {
 
     @Override
     public int compareTo(HostAddress other) {
-        if(other == null) {
+        if (other == null) {
             return 1;
         }
 
         // Host cannot be null (see constructor).
-        if(host.equals(other.host)) {
+        if (host.equals(other.host)) {
             return port - other.port;
         }
 
@@ -156,7 +157,7 @@ public class HostAddress implements Comparable<HostAddress>, Serializable {
      * @return a HostAddress object
      */
     public static HostAddress readDto(HostAddressDto dto) {
-        if(dto == null) {
+        if (dto == null) {
             return null;
         }
         return new HostAddress(dto.getHost(), dto.getPort());
@@ -169,7 +170,7 @@ public class HostAddress implements Comparable<HostAddress>, Serializable {
      * @return a data transfer object
      */
     public static HostAddressDto writeDto(HostAddress value) {
-        if(value == null) {
+        if (value == null) {
             return null;
         }
         return new HostAddressDto(value.host, value.port);
@@ -180,12 +181,12 @@ public class HostAddress implements Comparable<HostAddress>, Serializable {
         Validate.notEmpty(portText, "port cannot be empty");
 
         try {
-            if(StringUtils.isNumeric(portText)) {
+            if (StringUtils.isNumeric(portText)) {
                 return Integer.parseInt(portText);
             } else {
                 throw new IllegalStateException("Port must be numeric: " + portText);
             }
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new IllegalStateException("Port must be numeric: " + portText, e);
         }
     }

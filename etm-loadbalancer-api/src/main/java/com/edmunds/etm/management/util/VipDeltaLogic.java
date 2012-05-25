@@ -164,10 +164,10 @@ public class VipDeltaLogic {
     }
 
     private ManagementVip copyVip(
-        ManagementLoadBalancerState state, ManagementVip vip, Collection<ManagementPoolMember> members) {
+            ManagementLoadBalancerState state, ManagementVip vip, Collection<ManagementPoolMember> members) {
 
         return new ManagementVip(state, vip.getMavenModule(), vip.getHostAddress(),
-            members, vip.getRootContext(), vip.getRules(), vip.getHttpMonitor());
+                members, vip.getRootContext(), vip.getRules(), vip.getHttpMonitor());
     }
 
     private ManagementVip updateState(ManagementLoadBalancerState state, ManagementVip vip) {
@@ -175,7 +175,7 @@ public class VipDeltaLogic {
     }
 
     private List<ManagementPoolMember> updateState(
-        ManagementLoadBalancerState state, Collection<ManagementPoolMember> poolMembers) {
+            ManagementLoadBalancerState state, Collection<ManagementPoolMember> poolMembers) {
 
         List<ManagementPoolMember> result = Lists.newArrayList();
 

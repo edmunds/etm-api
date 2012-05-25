@@ -15,6 +15,7 @@
  */
 package com.edmunds.etm.management.api;
 
+import com.google.common.collect.Sets;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -22,6 +23,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 import static com.edmunds.etm.management.api.ManagementVip.MAVEN_MODULE_FUNCTION;
 import static com.edmunds.etm.management.api.ManagementVip.MAVEN_MODULE_VALID;
@@ -36,7 +38,7 @@ import static com.google.common.collect.Collections2.filter;
  */
 public class ManagementVips {
     public static final ManagementVips EMPTY_INSTANCE =
-        new ManagementVips(ManagementVipType.COMPLETE, Collections.<ManagementVip>emptyList());
+            new ManagementVips(ManagementVipType.COMPLETE, Collections.<ManagementVip>emptyList());
 
     private final Map<MavenModule, ManagementVip> vipsByMavenModule;
     private final int hashCode;
@@ -48,8 +50,8 @@ public class ManagementVips {
         this.vipType = vipType;
         vipsByMavenModule = createSortedMap(filter(vips, MAVEN_MODULE_VALID), MAVEN_MODULE_FUNCTION);
         hashCode = new HashCodeBuilder()
-            .append(vipsByMavenModule)
-            .toHashCode();
+                .append(vipsByMavenModule)
+                .toHashCode();
     }
 
     public ManagementVipType getVipType() {
@@ -60,10 +62,6 @@ public class ManagementVips {
         return vipsByMavenModule.get(mavenModule);
     }
 
-    public Collection<ManagementVip> getMavenModuleVips() {
-        return vipsByMavenModule.values();
-    }
-
     /**
      * Fetches the collection of vips.
      *
@@ -71,6 +69,50 @@ public class ManagementVips {
      */
     public Collection<ManagementVip> getVips() {
         return vipsByMavenModule.values();
+    }
+
+    /**
+     * Returns a collection of vips that match the specified load balancer state.
+     *
+     * @param state the load balancer state to match
+     * @return collection of matching vips
+     */
+    public Collection<ManagementVip> getVipsWithLoadBalancerState(ManagementLoadBalancerState state) {
+        Set<ManagementVip> matchingVips = Sets.newHashSet();
+        for (ManagementVip vip : getVips()) {
+            if (vip.getLoadBalancerState() == state) {
+                matchingVips.add(vip);
+            }
+        }
+        return matchingVips;
+    }
+
+    /**
+     * Adds the specified vips and returns the resulting ManagementVips object.
+     * <p/>
+     * This method does not modify the receiver, but instead creates a copy with the specified vips added.
+     *
+     * @param vips the vips to add
+     * @return a new ManagementVips object
+     */
+    public ManagementVips addAll(Collection<ManagementVip> vips) {
+        Set<ManagementVip> vipSet = Sets.newHashSet(getVips());
+        vipSet.addAll(vips);
+        return new ManagementVips(this.vipType, vipSet);
+    }
+
+    /**
+     * Removes the specified vips and returns the resulting ManagementVips object.
+     * <p/>
+     * This method does not modify the receiver, but instead creates a copy with the specified vips removed.
+     *
+     * @param vips the vips to remove
+     * @return a new ManagementVips object
+     */
+    public ManagementVips removeAll(Collection<ManagementVip> vips) {
+        Set<ManagementVip> vipSet = Sets.newHashSet(getVips());
+        vipSet.removeAll(vips);
+        return new ManagementVips(this.vipType, vipSet);
     }
 
     public boolean containsChanges() {
@@ -95,8 +137,8 @@ public class ManagementVips {
         ManagementVips other = (ManagementVips) o;
 
         return new EqualsBuilder()
-            .append(vipsByMavenModule, other.vipsByMavenModule)
-            .isEquals();
+                .append(vipsByMavenModule, other.vipsByMavenModule)
+                .isEquals();
     }
 
     @Override
