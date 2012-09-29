@@ -15,6 +15,7 @@
  */
 package com.edmunds.etm.loadbalancer.api;
 
+import com.edmunds.etm.management.api.HostAddress;
 import com.edmunds.etm.management.api.HttpMonitor;
 
 import java.rmi.RemoteException;
@@ -51,8 +52,9 @@ public interface LoadBalancerConnection {
     public Map<String, AvailabilityStatus> getAvailabilityStatus(List<String> serverNames)
         throws VirtualServerNotFoundException, RemoteException;
 
-    public void createVirtualServer(VirtualServer server, HttpMonitor httpMonitor)
-        throws VirtualServerExistsException, RemoteException;
+    public HostAddress createVirtualServer(
+            VirtualServer server, VirtualServerConfig virtualServerConfig,
+            HttpMonitor httpMonitor) throws VirtualServerExistsException, RemoteException;
 
     public void verifyVirtualServer(VirtualServer server, HttpMonitor httpMonitor);
 
