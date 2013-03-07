@@ -33,6 +33,18 @@ import java.util.Set;
  */
 public class VirtualServer implements Serializable {
 
+    public static String createServerEnvironmentPrefix(String prefix,
+                                                       EnvironmentConfiguration environment) {
+        StringBuilder sb = new StringBuilder(64);
+        sb.append(prefix);
+        sb.append('_');
+        sb.append(environment.getSite());
+        sb.append('_');
+        sb.append(environment.getEnvironmentName());
+        sb.append('_');
+        return sb.toString().replaceAll("[^a-zA-Z0-9_.-]", "-");
+    }
+
     public static String createServerName(String prefix,
                                           MavenModule mavenModule,
                                           EnvironmentConfiguration environment) {
@@ -96,10 +108,10 @@ public class VirtualServer implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if(this == o) {
+        if (this == o) {
             return true;
         }
-        if(!(o instanceof VirtualServer)) {
+        if (!(o instanceof VirtualServer)) {
             return false;
         }
 
