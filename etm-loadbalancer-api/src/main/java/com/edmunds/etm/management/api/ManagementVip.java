@@ -79,7 +79,7 @@ public class ManagementVip implements Comparable<ManagementVip> {
         return ManagementVipType.COMPLETE;
     }
 
-    public static <K, V extends Comparable> ImmutableMap<K, V> createSortedMap(
+    public static <K, V extends Comparable<? super V>> ImmutableMap<K, V> createSortedMap(
         Collection<V> poolMembers, Function<V, K> indexFunction) {
 
         final List<V> members = Lists.newArrayList(poolMembers);
