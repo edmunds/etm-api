@@ -165,12 +165,22 @@ public class ControllerPaths {
     }
 
     /**
+     * Gets the path to the HA Proxy configuration node.
+     *
+     * @return HA Proxy server configuration node path
+     */
+    public String getHaProxyConf() {
+        return getWebConf() + "/haproxy";
+    }
+
+    /**
      * Returns the leaf nodes of that are necessary to run etm.
      *
      * @return currently returns /controller/1.0/master
      */
     public Set<String> getStructuralPaths() {
-        return Sets.newHashSet(getConnected(), getVips(), getMaster(), getUrlTokens(), getApacheConf());
+        return Sets.newHashSet(getConnected(), getVips(), getMaster(), getUrlTokens(),
+                getApacheConf(), getHaProxyConf());
     }
 
     private String getRoot() {
