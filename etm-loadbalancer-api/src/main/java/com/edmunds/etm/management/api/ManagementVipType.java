@@ -17,10 +17,12 @@ package com.edmunds.etm.management.api;
 
 import com.google.common.base.Predicate;
 
+import static com.google.common.base.Predicates.not;
+
 /**
  * The type of VIP.
  */
-public enum ManagementVipType {
+public enum ManagementVipType implements Predicate<ManagementVip> {
 
     /**
      * The vip details have been populated from the active web applications so IP's may not have been assigned.
@@ -35,12 +37,7 @@ public enum ManagementVipType {
     /**
      * Predicate which tests if the current type can *NOT* contain vips of the given type.
      */
-    private final Predicate<ManagementVip> cannotContainVipPredicate = new Predicate<ManagementVip>() {
-        @Override
-        public boolean apply(ManagementVip item) {
-            return !canContain(item.getVipType());
-        }
-    };
+    private final Predicate<ManagementVip> cannotContainVipPredicate = not(this);
 
     /**
      * Test if a collection of this type "can contain" vips of the given type.
@@ -59,5 +56,10 @@ public enum ManagementVipType {
      */
     public Predicate<ManagementVip> getCannotContainVipPredicate() {
         return cannotContainVipPredicate;
+    }
+
+    @Override
+    public boolean apply(ManagementVip item) {
+        return item != null ? canContain(item.getVipType()) : false;
     }
 }

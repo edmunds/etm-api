@@ -51,7 +51,7 @@ public class OrderedInet4Address implements Comparable<OrderedInet4Address> {
     public OrderedInet4Address(byte[] address) {
         Validate.notNull(address);
         Validate.isTrue(address.length == 4);
-        this.address = address;
+        this.address = address.clone();
     }
 
     public Inet4Address toInet4Address() {

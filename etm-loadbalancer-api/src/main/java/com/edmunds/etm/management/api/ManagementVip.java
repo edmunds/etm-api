@@ -49,20 +49,20 @@ public class ManagementVip implements Comparable<ManagementVip> {
      * Key function to extract the MavenModule.
      */
     public static final Function<ManagementVip, MavenModule> MAVEN_MODULE_FUNCTION =
-        new Function<ManagementVip, MavenModule>() {
-            @Override
-            public MavenModule apply(ManagementVip vip) {
-                return vip.getMavenModule();
-            }
-        };
+            new Function<ManagementVip, MavenModule>() {
+                @Override
+                public MavenModule apply(ManagementVip vip) {
+                    return vip == null ? null : vip.getMavenModule();
+                }
+            };
 
     public static final Function<ManagementPoolMember, HostAddress> MEMBER_TO_HOST_ADDRESS =
-        new Function<ManagementPoolMember, HostAddress>() {
-            @Override
-            public HostAddress apply(ManagementPoolMember poolMember) {
-                return poolMember.getHostAddress();
-            }
-        };
+            new Function<ManagementPoolMember, HostAddress>() {
+                @Override
+                public HostAddress apply(ManagementPoolMember poolMember) {
+                    return poolMember == null ? null : poolMember.getHostAddress();
+                }
+            };
 
     /**
      * Predicate to test if the MavenModule is non-null.
